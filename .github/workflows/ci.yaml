@@ -28,3 +28,10 @@ jobs:
         run: poetry install
       - name: Lint
         run: poetry run ruff .
+      - name: Test
+        run: poetry run pytest --cov
+      # - name: Coveralls
+      #   uses: coverallsapp/github-action@master
+      #   with:
+      #     debug: true
+      #     github-token: ${{ github.token }}
