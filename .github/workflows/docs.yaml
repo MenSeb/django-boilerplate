@@ -1,13 +1,14 @@
-name: Continuous Integration
+name: Documentation
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  ci:
+  docs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,13 +26,6 @@ jobs:
         run: |
           curl -sSL https://install.python-poetry.org | python -
       - name: Install
-        run: poetry install --only lint,test
-      - name: Lint
-        run: poetry run ruff .
-      - name: Test
-        run: poetry run pytest --cov
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          debug: true
-          github-token: ${{ github.token }}
+        run: poetry install --only docs
+      - name: Deploy Documentation
+        run: poetry run mkdocs gh-deploy

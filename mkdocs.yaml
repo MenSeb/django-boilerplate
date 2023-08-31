@@ -1,0 +1,38 @@
+site_name: Django Boilerplate
+site_url: https://menseb.github.io/django-boilerplate
+
+site_author: Sébastien Menard
+site_description: Documentation for Django Boilerplate repository.
+
+copyright: MIT License - Copyright (c) 2023 Sébastien Menard
+
+repo_url: https://github.com/MenSeb/django-boilerplate
+
+nav:
+  - Home: index.md
+  - PyPackage: pypackage.md
+  - PyPackage: pypackage.md
+  - PyPackage: pypackage.md
+
+plugins:
+  - search # search functionality
+  - mkdocstrings # generate from docstrings
+
+theme:
+  locale: en
+  # name: mkdocs
+  name: readthedocs
+  # logo: assets/images/logo.svg
+  # favicon: assets/images/favicon.ico
+# extra_css:
+#   - assets/stylesheets/styles.css
+
+# How could this works for multiple languages ??
+# extra:
+#   alternate:
+#     - name: English
+#       link: /en/
+#       lang: en
+#     - name: French
+#       link: /fr/
+#       lang: fr

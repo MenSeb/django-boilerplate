@@ -7,8 +7,11 @@ ENV/
 env.bak/
 venv.bak/
 
+# mkdocs
+site/
+
 # mypy
-.mypy_cache
+.mypy_cache/
 
 # poetry
 #   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
@@ -23,13 +26,13 @@ venv.bak/
 # .python-version
 
 # pytest
-.pytest_cache
+.pytest_cache/
 
 # python
-__pycache__
+__pycache__/
 
 # ruff
-.ruff_cache
+.ruff_cache/
 
 # tests
-coverage
+coverage/
