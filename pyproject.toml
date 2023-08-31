@@ -48,7 +48,7 @@ testpaths = ["tests"]
 addopts = ["--import-mode=importlib", "--verbose", "--cov-report=lcov"]
 
 [tool.coverage.run]
-# branch = true
+branch = true
 parallel = true
 source = ["src"]
 omit = ["**/__init__.py"]
