@@ -1,11 +1,19 @@
 """Dummy module."""
 
+from __future__ import annotations
 
-def dummy_1(*dummy: bool) -> str:
+
+def dummy_1(*, dummy: bool = False) -> str:
     """Return the string dummy-1."""
-    return "dummy-1" if dummy else "duh"
+    if dummy:
+        return "dummy-1"
+
+    return "duh"
 
 
-def dummy_2(*dummy: bool) -> str:
+def dummy_2(*, dummy: bool = False) -> str:
     """Return the string dummy-2."""
-    return "dummy-2" if dummy else "duh"
+    if dummy:
+        return "dummy-2"
+
+    return "duh"
