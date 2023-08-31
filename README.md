@@ -7,3 +7,5 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
+[![Coverage Status](https://coveralls.io/repos/github/MenSeb/django-boilerplate/badge.svg?branch=master)](https://coveralls.io/github/MenSeb/django-boilerplate?branch=master)

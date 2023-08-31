@@ -10,6 +10,9 @@
 #   intended to run in multiple environments; otherwise, check them in:
 # .python-version
 
+# python
+__pycache__
+
 # environments
 .env
 .venv
@@ -19,5 +22,11 @@ ENV/
 env.bak/
 venv.bak/
 
+# tests
+coverage
+
 # ruff
 .ruff_cache
+
+# pytest
+.pytest_cache

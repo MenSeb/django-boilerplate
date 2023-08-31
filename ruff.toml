@@ -15,4 +15,4 @@ exclude = []
 
 # A list of mappings from file pattern to rule codes or prefixes to exclude.
 [per-file-ignores]
-"__init__.py" = ["D100", "D104"]
+"tests/**/*.py" = ["S101", "PLR2004"]
