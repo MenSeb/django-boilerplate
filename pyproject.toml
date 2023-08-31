@@ -46,3 +46,8 @@ python = "^3.11"
 [tool.poetry.group.dev.dependencies]
 commitizen = "^3.7.0"
 
+
+[tool.poetry.group.lint.dependencies]
+ruff = "^0.0.286"
+black = "^23.7.0"
+
