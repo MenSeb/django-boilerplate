@@ -48,7 +48,7 @@ testpaths = ["tests"]
 addopts = ["--import-mode=importlib", "--verbose", "--cov-report=lcov"]
 
 [tool.coverage.run]
-branch = true
+# branch = true
 parallel = true
 source = ["src"]
 omit = ["**/__init__.py"]
@@ -58,11 +58,9 @@ data_file = "coverage/.coverage"
 fail_under = 100
 show_missing = true
 
-[tool.coverage.html]
-directory = "coverage"
-
 [tool.coverage.lcov]
-output = "coverage/coverage.lcov"
+output = "./coverage/lcov.info"
+
 
 [tool.poetry.dependencies]
 python = "^3.11"
