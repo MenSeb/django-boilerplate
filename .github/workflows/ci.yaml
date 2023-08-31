@@ -1,0 +1,30 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Save Version
+        run: |
+          echo "PYTHON_VERSION=$(cat ${{ github.workspace }}/pyproject.toml | 
+          grep 'python = ' | 
+          grep -o -P '(?<=\^).*(?=\")')" >> $GITHUB_ENV
+      - name: Setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python -
+      - name: Install
+        run: poetry install
+      - name: Lint
+        run: poetry run ruff .
