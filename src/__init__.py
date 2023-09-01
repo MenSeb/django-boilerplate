@@ -1,1 +1,1 @@
-"""Project source."""
+"""Source init."""

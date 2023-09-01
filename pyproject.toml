@@ -31,9 +31,7 @@ classifiers = [
   "Topic :: Software Development",
   "Topic :: Utilities"
 ]
-packages = [
-  { include = "pypackage", from = "src" }
-]
+packages = []
 include = [
   { path = "tests", format = "sdist" }
 ]
@@ -69,8 +67,13 @@ exclude_lines = [
 branch = true
 parallel = true
 source = ["src"]
-omit = ["**/__init__.py"]
 data_file = "coverage/.coverage"
+omit = [
+  "**/__init__.py", 
+  "src/project/*", 
+  "src/app/*",
+  "src/manage.py",
+]
 
 [tool.mypy]
 ignore_missing_imports = true
@@ -130,4 +133,10 @@ pytest-cov = "^4.1.0"
 [tool.poetry.group.docs.dependencies]
 mkdocs = {extras = ["i18n"], version = "^1.5.2"}
 mkdocstrings = {extras = ["python"], version = "^0.22.0"}
+
+
+[tool.poetry.group.django.dependencies]
+django = "^4.2.4"
+mysqlclient = "^2.2.0"
+python-dotenv = "^1.0.0"
 

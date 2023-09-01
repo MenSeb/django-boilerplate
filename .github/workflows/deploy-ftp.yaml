@@ -13,6 +13,7 @@ jobs:
       - name: Prepare Content
         run: |
           mkdir content &&
+          cp -r src content &&
           cp pyproject.toml LICENSE.txt README.md content
       - name: Deploy FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.4
