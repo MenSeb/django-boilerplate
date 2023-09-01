@@ -14,7 +14,7 @@ runs:
       uses: actions/cache@v3
       with:
         path: ~/.cache/pypoetry/virtualenvs
-        key: venv-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
+        key: venv-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
     - name: Install Virtualenv
       shell: bash
       if: steps.cache-venv.outputs.cache-hit != true
