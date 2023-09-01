@@ -13,12 +13,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      - name: Version Python
-        uses: ./.github/actions/python
       - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
+        uses: ./.github/actions/python
       - name: Install Poetry
         uses: ./.github/actions/poetry
       - name: Install Virtualenv

@@ -108,7 +108,7 @@ exclude = []
 
 
 [tool.poetry.dependencies]
-python = "^3.11.5"
+python = "^3.11.4"
 
 
 [tool.poetry.group.dev.dependencies]
