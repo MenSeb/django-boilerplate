@@ -135,4 +135,5 @@ mkdocstrings = {extras = ["python"], version = "^0.22.0"}
 [tool.poetry.group.django.dependencies]
 django = "^4.2.4"
 mysqlclient = "^2.2.0"
+python-dotenv = "^1.0.0"
 
