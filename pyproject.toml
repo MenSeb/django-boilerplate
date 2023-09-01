@@ -31,9 +31,7 @@ classifiers = [
   "Topic :: Software Development",
   "Topic :: Utilities"
 ]
-packages = [
-  { include = "pypackage", from = "src" }
-]
+packages = []
 include = [
   { path = "tests", format = "sdist" }
 ]
