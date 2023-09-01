@@ -57,7 +57,7 @@ directory = "./coverage/html"
 output = "./coverage/lcov.info"
 
 [tool.coverage.report]
-# fail_under = 100
+fail_under = 100
 show_missing = true
 exclude_lines = [
     "if __name__ == \"__main__\":",
@@ -69,8 +69,13 @@ exclude_lines = [
 branch = true
 parallel = true
 source = ["src"]
-omit = ["**/__init__.py"]
 data_file = "coverage/.coverage"
+omit = [
+  "**/__init__.py", 
+  "src/project/*", 
+  "src/app/*",
+  "src/manage.py",
+]
 
 [tool.mypy]
 ignore_missing_imports = true
