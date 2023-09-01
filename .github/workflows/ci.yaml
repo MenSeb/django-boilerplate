@@ -21,11 +21,24 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
+      - name: Cache Poetry
+        id: cache-poetry
+        uses: actions/cache@v3
+        with:
+          path: ~/.local
+          key: poetry-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
       - name: Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python -
+        if: steps.cache-poetry.outputs.cache-hit != true
+        run: curl -sSL https://install.python-poetry.org | python -
+      - name: Cache Venv
+        id: cache-venv
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: venv-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
       - name: Install
-        run: poetry install --only lint,test
+        if: steps.cache-venv.outputs.cache-hit != true
+        run: poetry install --no-interaction --no-root --only lint,test
       - name: Lint
         run: poetry run ruff .
       - name: Test
