@@ -11,21 +11,19 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v3
-      - name: Version
-        run: |
-          echo "PYTHON_VERSION=$(cat ${{ github.workspace }}/pyproject.toml | 
-          grep 'python = ' | 
-          grep -o -P '(?<=\^).*(?=\")')" >> $GITHUB_ENV
-      - name: Setup
+      - name: Version Python
+        uses: ./.github/actions/python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ env.PYTHON_VERSION }}
-      - name: Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python -
-      - name: Install
-        run: poetry install --only docs
+      - name: Install Poetry
+        uses: ./.github/actions/poetry
+      - name: Install Virtualenv
+        uses: ./.github/actions/virtualenv
+        with:
+          groups: --only docs
       - name: Deploy Documentation
         run: poetry run mkdocs gh-deploy --force

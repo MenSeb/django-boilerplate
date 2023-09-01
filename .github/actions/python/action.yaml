@@ -1,0 +1,12 @@
+name: Python Version
+description: Extract python version
+
+runs:
+  using: composite
+  steps:
+    - name: Version Python
+      shell: bash
+      run: |
+        echo "PYTHON_VERSION=$(cat ${{ github.workspace }}/pyproject.toml | 
+        grep 'python = ' | 
+        grep -o -P '(?<=\^).*(?=\")')" >> $GITHUB_ENV
