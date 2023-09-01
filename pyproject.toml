@@ -131,3 +131,8 @@ pytest-cov = "^4.1.0"
 mkdocs = {extras = ["i18n"], version = "^1.5.2"}
 mkdocstrings = {extras = ["python"], version = "^0.22.0"}
 
+
+[tool.poetry.group.django.dependencies]
+django = "^4.2.4"
+mysqlclient = "^2.2.0"
+
