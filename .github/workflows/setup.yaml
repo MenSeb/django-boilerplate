@@ -18,8 +18,3 @@ jobs:
         uses: ./.github/actions/python
       - name: Install Poetry
         uses: ./.github/actions/poetry
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: setup
-          path: ${{ github.workspace }}
