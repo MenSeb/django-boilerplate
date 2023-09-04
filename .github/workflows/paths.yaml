@@ -1,0 +1,33 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    paths:
+      - "**.py"
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: ./.github/actions/python
+      - name: Install Poetry
+        uses: ./.github/actions/poetry
+      - name: Install Virtualenv
+        uses: ./.github/actions/virtualenv
+        with:
+          groups: --only lint,test
+      - name: Lint
+        run: poetry run ruff .
+      - name: Test
+        run: poetry run pytest --cov
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          debug: true
+          github-token: ${{ github.token }}
