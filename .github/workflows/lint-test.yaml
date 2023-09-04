@@ -1,21 +1,20 @@
 name: Lint & Test
 
 on:
-  workflow_run:
-    workflows: ["Setup"]
-    types:
-      - completed
+  pull_request:
+  # workflow_run:
+  #   workflows: ["Setup"]
+  #   types:
+  #     - completed
 
 jobs:
   lint-test:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    needs: [Setup]
+    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: setup
-          path: ${{ github.workspace }}
+      - name: Checkout Repository
+        uses: actions/checkout@v3
       - name: Install Virtualenv
         uses: ./.github/actions/virtualenv
         with:
