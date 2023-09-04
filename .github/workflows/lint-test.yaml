@@ -1,0 +1,25 @@
+name: Lint & Test
+
+on:
+  workflow_run:
+    workflows: ["setup"]
+    types:
+      - completed
+
+jobs:
+  lint-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Virtualenv
+        uses: ./.github/actions/virtualenv
+        with:
+          groups: --only lint,test
+      - name: Lint
+        run: poetry run ruff .
+      - name: Test
+        run: poetry run pytest --cov
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          debug: true
+          github-token: ${{ github.token }}
