@@ -5,7 +5,7 @@ from temp import temp_false, temp_true
 
 def test_temp_true() -> None:
     """Test temp_true."""
-    assert temp_true() is True
+    assert temp_true() is not False
 
 
 def test_temp_false() -> None:

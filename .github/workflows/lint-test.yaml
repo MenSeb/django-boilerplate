@@ -11,6 +11,11 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: setup
+          path: ${{ github.workspace }}
       - name: Install Virtualenv
         uses: ./.github/actions/virtualenv
         with:
