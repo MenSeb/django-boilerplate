@@ -3,12 +3,34 @@ name: Deploy FTP
 on:
   workflow_call:
   workflow_dispatch:
+  workflow_run:
+    workflows: [Continuous Integration]
+    types:
+      - completed
 
 env:
   dir: tmp
 
 jobs:
+  filter:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }} && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      source: ${{ steps.filter.outputs.source }}
+    steps:
+      - name: Filter Changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            source:
+              - "src/**"
+
   deploy-ftp:
+    needs: filter
+    if: ${{ needs.filter.outputs.source == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
