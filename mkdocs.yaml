@@ -10,9 +10,9 @@ repo_url: https://github.com/MenSeb/django-boilerplate
 
 nav:
   - Home: index.md
-  - PyPackage: pypackage.md
-  - PyPackage: pypackage.md
-  - PyPackage: pypackage.md
+  - Temp: temp.md
+  - Temp: temp.md
+  - Temp: temp.md
 
 plugins:
   - search # search functionality

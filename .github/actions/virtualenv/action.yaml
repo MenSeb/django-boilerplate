@@ -18,4 +18,4 @@ runs:
     - name: Install Virtualenv
       shell: bash
       if: steps.cache-venv.outputs.cache-hit != true
-      run: poetry install --no-interaction --no-root ${{ inputs.groups }}
+      run: poetry install --no-root ${{ inputs.groups }}

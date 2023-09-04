@@ -3,12 +3,37 @@ name: Documentation
 on:
   workflow_call:
   workflow_dispatch:
+  workflow_run:
+    workflows: [Continuous Integration]
+    types:
+      - completed
 
 permissions:
   contents: write
 
 jobs:
+  filter:
+    if: ${{ github.event_name != 'workflow_dispatch' }} && ${{ github.event.workflow_run.conclusion == 'success' }} && github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      docs: ${{ steps.filter.outputs.docs }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Filter Changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            docs:
+              - "mkdocs.yaml"
+              - "docs/**"
+
   docs:
+    needs: filter
+    if: ${{ github.event_name == 'workflow_dispatch' }} || ${{ needs.filter.outputs.docs == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
