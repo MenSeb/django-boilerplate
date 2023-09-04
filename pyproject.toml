@@ -122,6 +122,7 @@ mypy = "^1.5.1"
 [tool.poetry.group.lint.dependencies]
 ruff = "^0.0.286"
 black = "^23.7.0"
+pymarkdownlnt = "^0.9.13.3"
 
 
 [tool.poetry.group.test.dependencies]
