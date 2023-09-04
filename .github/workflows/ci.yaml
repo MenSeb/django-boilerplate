@@ -48,7 +48,7 @@ jobs:
           groups: --only lint,test
       - name: Lint Markdown
         if: ${{ needs.filter.outputs.markdown == 'true' }}
-        run: echo "LINT MARKDOWN"
+        run: poetry run pymarkdown scan .
       - name: Lint YAML
         if: ${{ needs.filter.outputs.yaml == 'true' }}
         run: echo "LINT YAML"
