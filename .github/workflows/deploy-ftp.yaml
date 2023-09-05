@@ -4,15 +4,21 @@ on:
   workflow_call:
   workflow_dispatch:
   workflow_run:
+    branches: [master]
+    types: [completed]
     workflows: [Continuous Integration]
-    types:
-      - completed
 
 env:
   dir: tmp
 
 jobs:
   test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Displays
+        run: echo ${{ github.ref }} ${{ github.event_name != 'workflow_dispatch' }}
+  filter:
+    if: ${{ github.event_name != 'workflow_dispatch' }} && ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - name: Displays
