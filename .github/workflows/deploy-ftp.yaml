@@ -1,3 +1,4 @@
+---
 name: Deploy FTP
 
 on:
@@ -10,6 +11,8 @@ on:
 
 env:
   dir: tmp
+  dispatch: ${{ github.event_name != 'workflow_dispatch' }}
+  success: ${{ github.event.workflow_run.conclusion == 'success' }}
 
 jobs:
   test:
@@ -17,8 +20,9 @@ jobs:
     steps:
       - name: Displays
         run: echo ${{ github.event_name != 'workflow_dispatch' }}
+
   filter:
-    if: ${{ github.event_name != 'workflow_dispatch' }} && ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ env.dispatch }} && ${{ env.success }}
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
@@ -37,7 +41,7 @@ jobs:
 
   deploy-ftp:
     needs: filter
-    if: ${{ github.event_name == 'workflow_dispatch' }} || ${{ needs.filter.outputs.source == 'true' }}
+    if: ${{ env.dispatch }} || ${{ needs.filter.outputs.source == 'true' }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
