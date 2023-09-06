@@ -4,7 +4,11 @@
 from __future__ import annotations
 
 import subprocess
+from logging import INFO, basicConfig, info
 from pathlib import Path
+from typing import TextIO
+
+basicConfig(level=INFO)
 
 
 def read_file_lines(path: str) -> list[str]:
@@ -12,24 +16,14 @@ def read_file_lines(path: str) -> list[str]:
     return Path.open(path).read().split("\n")
 
 
-def is_empty_or_comment(line: str) -> bool:
-    """Return true if not an empty line or comment."""
-    return not (line.startswith("#") or line == "")
+def is_path_folder(line: str) -> bool:
+    """Return true if the path is a folder."""
+    return line.endswith("/") and not line.startswith("#")
 
 
 def filter_file_lines(lines: list[str]) -> list[str]:
-    """Filter the comments and empty lines from a file."""
-    return list(filter(is_empty_or_comment, lines))
-
-
-def format_path_glob(path: str) -> str:
-    """Format a path with glob /**/* if path is a folder."""
-    return f"{path}**/*" if path.endswith("/") else path
-
-
-def format_paths_exclude(paths: list[str]) -> str:
-    """Extract paths from .gitignore file."""
-    return " --exclude=".join(map(format_path_glob, paths))
+    """Filter the lines in file to keep the one as folder path."""
+    return list(filter(is_path_folder, lines))
 
 
 def find_yaml_files() -> list[str]:
@@ -54,6 +48,8 @@ def filter_yaml_files(files: list[str], paths: list[str]) -> list[str]:
 
 def fix_yaml_file_endings(path: str) -> None:
     """Fix YAML file endings from CRLF to LF."""
+    file: TextIO
+
     with Path.open(path, "rb") as file:
         content = file.read()
 
@@ -62,18 +58,19 @@ def fix_yaml_file_endings(path: str) -> None:
     with Path.open(path, "wb") as file:
         file.write(content)
 
+    file.close()
 
-def yamlfix_cli() -> None:
+
+def yamlfix() -> None:
     """Call yamlfix from cli and exclude .gitignore paths."""
     paths_gitignore = filter_file_lines(read_file_lines(".gitignore"))
-    exclude = format_paths_exclude(paths_gitignore)
+
     yaml_files = filter_yaml_files(find_yaml_files(), paths_gitignore)
-    subprocess.run(
-        f"poetry run yamlfix . --exclude={exclude}",  # noqa: S603
-        check=False,
-    )
+
     for yaml_file in yaml_files:
+        info(f"YamlFix - File : {yaml_file}")
+        subprocess.run(
+            f"poetry run yamlfix {yaml_file}",  # noqa: S603
+            check=False,
+        )
         fix_yaml_file_endings(yaml_file)
-
-
-yamlfix_cli()
