@@ -61,8 +61,16 @@ def fix_yaml_file_endings(path: str) -> None:
     file.close()
 
 
-def yamlfix() -> None:
-    """Call yamlfix from cli and exclude .gitignore paths."""
+def fix_yaml_files() -> None:
+    """Fix all YAML files in the project.
+
+    Find all YAML files in the project excluding paths from .gitignore.
+
+    For each file:
+        Call yamlfix cli to fix errors.
+
+        Update line endings from CRLF to LF.
+    """
     paths_gitignore = filter_file_lines(read_file_lines(".gitignore"))
 
     yaml_files = filter_yaml_files(find_yaml_files(), paths_gitignore)
