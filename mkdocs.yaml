@@ -1,12 +1,10 @@
-site_name: Django Boilerplate
-site_url: https://menseb.github.io/django-boilerplate
-
+---
 site_author: Sébastien Menard
 site_description: Documentation for Django Boilerplate repository.
-
-copyright: MIT License - Copyright (c) 2023 Sébastien Menard
-
+site_name: Django Boilerplate
+site_url: https://menseb.github.io/django-boilerplate
 repo_url: https://github.com/MenSeb/django-boilerplate
+copyright: MIT License - Copyright (c) 2023 Sébastien Menard
 
 nav:
   - Home: index.md
@@ -15,8 +13,8 @@ nav:
   - Temp: temp.md
 
 plugins:
-  - search # search functionality
   - mkdocstrings # generate from docstrings
+  - search # search functionality
 
 theme:
   locale: en

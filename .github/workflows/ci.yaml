@@ -1,9 +1,9 @@
+---
 name: Continuous Integration
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
   pull_request:
 
 jobs:
@@ -30,6 +30,7 @@ jobs:
               - "**.py"
             yaml:
               - "**.yaml"
+              - "**.yml"
 
   ci:
     needs: filter
@@ -51,7 +52,7 @@ jobs:
         run: poetry run pymarkdown scan .
       - name: Lint YAML
         if: ${{ needs.filter.outputs.yaml == 'true' }}
-        run: echo "LINT YAML"
+        run: poetry run yamllint .
       - name: Lint & Test Python
         if: ${{ needs.filter.outputs.python == 'true' }}
         run: poetry run ruff . && poetry run pytest --cov

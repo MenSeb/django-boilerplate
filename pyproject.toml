@@ -109,6 +109,11 @@ exclude = []
 [tool.ruff.per-file-ignores]
 "tests/**/*.py" = ["S101", "PLR2004"]
 
+[tool.yamlfix]
+comments_min_spaces_from_content = 1
+preserve_quotes = true
+whitelines = 1
+
 
 [tool.poetry.dependencies]
 python = "^3.11.1"
@@ -117,12 +122,14 @@ python = "^3.11.1"
 [tool.poetry.group.dev.dependencies]
 commitizen = "^3.7.0"
 mypy = "^1.5.1"
+yamlfix = "^1.14.0"
 
 
 [tool.poetry.group.lint.dependencies]
 ruff = "^0.0.286"
 black = "^23.7.0"
 pymarkdownlnt = "^0.9.13.3"
+yamllint = "^1.32.0"
 
 
 [tool.poetry.group.test.dependencies]
