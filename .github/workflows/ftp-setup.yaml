@@ -1,0 +1,44 @@
+---
+name: FTP Setup
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  workflow_run:
+    branches: [master]
+    types: [completed]
+    workflows: [Continuous Integration]
+
+env:
+  dir: tmp
+
+jobs:
+  changes:
+    if: |
+      github.event_name != 'workflow_dispatch' &&
+      github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      source: ${{ steps.filter.outputs.source }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Filter Changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            source: src/**
+
+  ftp-push:
+    needs: changes
+    if: needs.changes.outputs.source == 'true'
+    uses: ./.github/workflows/ftp-deploy.yaml
+    secrets: inherit
+
+  ftp-dispatch:
+    if: |
+      github.event_name == 'workflow_dispatch' &&
+      github.event.ref == 'refs/heads/master'
+    uses: ./.github/workflows/ftp-deploy.yaml
+    secrets: inherit
