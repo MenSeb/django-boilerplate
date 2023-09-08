@@ -18,29 +18,29 @@ jobs:
       github.event_name != 'workflow_dispatch' &&
       github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: read
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-      - name: Displays GITHUB_CONTEXT
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github.event) }}
-        run: echo "$GITHUB_CONTEXT"
-      - name: Displays GITHUB_EVENT
-        env:
-          GITHUB_EVENT: ${{ github.event.before }}
-        run: echo "$GITHUB_EVENT"
       - name: Filter Changes
         uses: dorny/paths-filter@v2
         id: filter
         with:
-          base: HEAD
           filters: |
             source: src/**
-      - name: Deploy
+      - name: Deploy Push
         if: steps.filter.outputs.source == 'true'
-        run: echo "DEPLOY"
+        run: echo "DEPLOY PUSH"
+
+  deploy-dispatch:
+    if: |
+      github.event_name == 'workflow_dispatch' &&
+      github.event.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+      - name: Deploy Dispatch
+        run: echo "DEPLOY DISPATCH"
 
   # filter:
   # if: |
