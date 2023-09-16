@@ -1,24 +1,26 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    {% comment %} <meta name="description" content="{{ site_description }}" />
-    <meta name="keywords" content="{{ site_keywords }}" /> {% endcomment %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ site_title }}</title>
-  </head>
-  <body>
-    <header>
-      {% comment %} <img alt="Python logo" src="{% static 'app/assets/python.svg' %}" /> {% endcomment %}
-      {% comment %} <h1>{{ site_brand }}</h1> {% endcomment %}
-    </header>
-    <main>
-      {% block content %}
-      {% endblock content %}
-    </main>
-    <footer>
-    </footer>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        {% comment %} <meta name="description" content="{{ site_description }}" />
+        <meta name="keywords" content="{{ site_keywords }}" /> {% endcomment %}
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{ site_title }}</title>
+    </head>
+    <body>
+        <header>
+            {% comment %} <img alt="Python logo" src="{% static 'app/assets/python.svg' %}" /> {% endcomment %}
+            {% comment %} <h1>{{ site_brand }}</h1> {% endcomment %}
+        </header>
+        <main>
+            {% block content %}
+            {% endblock content %}
+        </main>
+        <footer>
+            {% block footer %}
+            {% endblock footer %}
+        </footer>
+    </body>
 </html>

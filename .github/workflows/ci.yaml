@@ -14,6 +14,7 @@ jobs:
       pull-requests: read
     outputs:
       changes: ${{ steps.filter.outputs.changes }}
+      html: ${{ steps.filter.outputs.html }}
       markdown: ${{ steps.filter.outputs.markdown }}
       python: ${{ steps.filter.outputs.python }}
       yaml: ${{ steps.filter.outputs.yaml }}
@@ -25,6 +26,8 @@ jobs:
         id: filter
         with:
           filters: |
+            html:
+              - "**.html"
             markdown:
               - "**.md"
             python:
@@ -48,6 +51,9 @@ jobs:
         uses: ./.github/actions/virtualenv
         with:
           groups: --only lint,test
+      - name: Lint HTML
+        if: ${{ needs.filter.outputs.html == 'true' }}
+        run: poetry run djlint . --check --lint
       - name: Lint Markdown
         if: ${{ needs.filter.outputs.markdown == 'true' }}
         run: poetry run pymarkdown scan .
