@@ -1,5 +1,6 @@
 ---
 name: FTP Deploy
+# description: Deploy code to FTP server.
 
 on:
   workflow_call:
