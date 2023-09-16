@@ -1,5 +1,6 @@
 ---
 name: Docs Setup
+description: Setup logic to deploy documentation.
 
 on:
   workflow_call:
@@ -13,7 +14,7 @@ permissions:
   contents: write
 
 jobs:
-  changes:
+  filter:
     if: |
       github.event_name != 'workflow_dispatch' &&
       github.event.workflow_run.conclusion == 'success'
@@ -33,8 +34,8 @@ jobs:
               - "docs/**"
 
   docs-push:
-    needs: changes
-    if: needs.changes.outputs.docs == 'true'
+    needs: filter
+    if: needs.filter.outputs.docs == 'true'
     uses: ./.github/workflows/docs-deploy.yaml
 
   docs-dispatch:

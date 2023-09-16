@@ -1,5 +1,6 @@
 ---
-name: Close stale issues and PRs
+name: Stale
+description: Close stale issues and PRs.
 
 on:
   schedule:

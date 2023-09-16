@@ -1,5 +1,6 @@
 ---
 name: FTP Setup
+description: Setup logic to deploy FTP.
 
 on:
   workflow_call:
@@ -13,7 +14,7 @@ env:
   dir: tmp
 
 jobs:
-  changes:
+  filter:
     if: |
       github.event_name != 'workflow_dispatch' &&
       github.event.workflow_run.conclusion == 'success'
@@ -31,8 +32,8 @@ jobs:
             source: src/**
 
   ftp-push:
-    needs: changes
-    if: needs.changes.outputs.source == 'true'
+    needs: filter
+    if: needs.filter.outputs.source == 'true'
     uses: ./.github/workflows/ftp-deploy.yaml
     secrets: inherit
 

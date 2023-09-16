@@ -1,5 +1,6 @@
 ---
 name: Docs Deploy
+description: Deploy documentation to GitHub Pages.
 
 on:
   workflow_call:
