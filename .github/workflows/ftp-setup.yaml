@@ -10,9 +10,6 @@ on:
     types: [completed]
     workflows: [Continuous Integration]
 
-env:
-  dir: tmp
-
 jobs:
   filter:
     if: |

@@ -2,6 +2,11 @@
 name: Poetry
 description: Cache/Install Poetry
 
+inputs:
+  path:
+    required: true
+    description: path to poetry cache folder.
+
 runs:
   using: composite
   steps:
@@ -9,8 +14,10 @@ runs:
       id: cache-poetry
       uses: actions/cache@v3
       with:
-        path: ~/.local
-        key: poetry-${{ runner.os }}-${{ hashFiles('**/poetry.lock') }}
+        # path: ~/.local
+        path: ${{ inputs.path }}
+        # Increment number at the end to reset cache
+        key: poetry-${{ runner.os }}-0
     - name: Install Poetry
       if: steps.cache-poetry.outputs.cache-hit != true
       shell: bash

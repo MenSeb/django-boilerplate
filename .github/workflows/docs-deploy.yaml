@@ -5,9 +5,6 @@ name: Docs Deploy
 on:
   workflow_call:
 
-env:
-  dir: tmp
-
 jobs:
   docs-deploy:
     runs-on: ubuntu-latest

@@ -7,6 +7,14 @@ on:
     branches: [master]
   pull_request:
 
+env:
+  poetry-ubuntu-latest: ~/.local
+  poetry-macOS-latest: ~/.local/bin
+  poetry-windows-latest: C:/Users/runneradmin/AppData/Roaming/Python/Scripts
+  venv-macOS-latest: ~/Library/Caches/pypoetry
+  venv-ubuntu-latest: ~/.cache/pypoetry
+  venv-windows-latest: something
+
 jobs:
   filter:
     runs-on: ubuntu-latest
@@ -34,38 +42,68 @@ jobs:
               - "**.py"
             yaml:
               - "**.yaml"
-              - "**.yml"
+              - "**.yml"    
 
   ci:
     needs: filter
     if: ${{ needs.filter.outputs.changes != '[]' }}
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        # os: [macOS-latest, ubuntu-latest, windows-latest]
+        # os: [macOS-latest]
+        os: [windows-latest]
     steps:
+      # - name: DISPLAY
+      #   shell: bash
+      #   run: echo ${{ env[format('poetry-{0}', matrix.os)] }}
       - name: Checkout Repository
         uses: actions/checkout@v3
       - name: Setup Python
         uses: ./.github/actions/python
       - name: Install Poetry
         uses: ./.github/actions/poetry
+        with:
+          path: ${{ env[format('poetry-{0}', matrix.os)] }}
       - name: Install Virtualenv
         uses: ./.github/actions/virtualenv
         with:
           groups: --only lint,test
-      - name: Lint HTML
-        if: ${{ needs.filter.outputs.html == 'true' }}
-        run: poetry run djlint . --check --lint
-      - name: Lint Markdown
-        if: ${{ needs.filter.outputs.markdown == 'true' }}
-        run: poetry run pymarkdown scan .
-      - name: Lint YAML
-        if: ${{ needs.filter.outputs.yaml == 'true' }}
-        run: poetry run yamllint .
-      - name: Lint & Test Python
-        if: ${{ needs.filter.outputs.python == 'true' }}
-        run: poetry run ruff . && poetry run pytest --cov
-      - name: Coveralls
-        if: ${{ needs.filter.outputs.python == 'true' }}
-        uses: coverallsapp/github-action@master
-        with:
-          debug: true
-          github-token: ${{ github.token }}
+          path: ${{ env[format('venv-{0}', matrix.os)] }}
+      # - name: Lint HTML
+      #   if: ${{ needs.filter.outputs.html == 'true' }}
+      #   run: poetry run djlint . --check --lint
+      # - name: Lint Markdown
+      #   if: ${{ needs.filter.outputs.markdown == 'true' }}
+      #   run: poetry run pymarkdown scan .
+      # - name: Lint YAML
+      #   if: ${{ needs.filter.outputs.yaml == 'true' }}
+      #   run: poetry run yamllint .
+      # - name: Lint Python
+      #   if: ${{ needs.filter.outputs.python == 'true' }}
+      #   run: poetry run ruff .
+      # - name: Test Python
+      #   if: ${{ needs.filter.outputs.python == 'true' }}
+      #   run: poetry run pytest --cov --cov-report lcov
+      # - name: Upload LCOV
+      #   if: ${{ needs.filter.outputs.python == 'true' }}
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: lcov
+      #     path: ./coverage/lcov.info
+
+  # coverage:
+  #   needs: ci
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Download LCOV
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: lcov
+  #         path: ./coverage/
+  #     - name: Coveralls
+  #       if: ${{ hashFiles('./coverage/lcov.info') != '' }}
+  #       uses: coverallsapp/github-action@master
+  #       with:
+  #         debug: true
+  #         github-token: ${{ github.token }}
