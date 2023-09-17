@@ -8,19 +8,38 @@ from logging import INFO, basicConfig, info
 from pathlib import Path
 from typing import Iterable, TextIO
 
+from pathspec import PathSpec
+
 basicConfig(level=INFO)
+
+
+class RootError(Exception):
+    """Script not called from root exception."""
+
+    def __init__(self: RootError) -> None:
+        """RootError init."""
+        self.message = "Call this script from root."
+        super().__init__(self.message)
+
+
+def load_lines_gitignore() -> list[str]:
+    """Load lines from .gitignore file content."""
+    path = Path(".gitignore")
+
+    if not path.is_file():
+        raise RootError
+
+    with path.open() as file:
+        lines = file.readlines()
+
+    file.close()
+
+    return lines
 
 
 def find_yaml_files(source: str = ".") -> Iterable[Path]:
     """Find YAML files from source using glob patterns."""
     return chain(Path(source).glob("**/*.yml"), Path(source).glob("**/*.yaml"))
-
-
-def filter_yaml_file(path: Path, gitignore: str) -> bool:
-    """Return true if the file is not found in gitignore."""
-    file = str(path)
-
-    return gitignore.find(file[: file.find("\\")]) == -1
 
 
 def fix_file_endings(path: str) -> None:
@@ -59,13 +78,12 @@ def fix_yaml_files() -> None:
       if file was fixed
         Fix line endings from CRLF to LF.
     """
-    gitignore = Path.open(".gitignore").read()
-    yaml_files = filter(
-        lambda file: filter_yaml_file(file, gitignore),
-        find_yaml_files(),
-    )
+    paths_gitignore = PathSpec.from_lines("gitwildmatch", load_lines_gitignore())
 
-    for yaml_file in yaml_files:
+    for yaml_file in find_yaml_files():
+        if paths_gitignore.match_file(yaml_file):
+            continue
+
         result = run_yamlfix_file(yaml_file)
 
         if result.find("1 fixed") != -1:
